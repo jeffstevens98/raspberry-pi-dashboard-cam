@@ -21,7 +21,7 @@ video and save it to the SD card. If there is not enough space, we delete
 the oldest videos on the raspberry pi until there is enough space.
 
     3.5 Not part of the code, but at this point, the raspberry pi is running on an
-        auxilliary power source from inside 
+        auxilliary power source from inside the car.
     
 4. Once the video is saved, we check to see if there is a saved Wifi signal.
 This saved wifi signal is intended to be the user's home network that can be
@@ -47,10 +47,29 @@ print("Raspberry Pi Dashboard Camera \n"
 #Step 1: Check to see if there is enough space to store a 1 hour video file.
 print("Analyzing remaining diskspace...")
 print(psutil.disk_usage(".").free)
+'''
+while remaining disk space <= amount of diskspace for 1 hour of video
+    delete oldest video
+'''
 
-
+#Step 2: Start recording
+print("Camera starting up...")
 camera = picamera.PiCamera()
 camera.resolution = (640, 480)
+#Generate name of file based on date, number of trips in day, and time
 camera.start_recording('my_video.h264')
-camera.wait_recording(60)
+print("Recording has begun for FILENAME")
+
+#Step 3: Stop recording
+#Receive signal from no power from cigarette lighter
+#Change power source
+#camera.wait_recording(60)
 camera.stop_recording()
+print("Recording has stopped")
+#Check to see if video is saved in directory
+
+#Step 4: Send videos to server if wifi signal present
+
+#Step 5: Switch power sources
+
+
