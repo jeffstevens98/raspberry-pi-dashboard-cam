@@ -40,13 +40,20 @@ import psutil
 
 ##########################
 
+def generateFileName():
+	#Take the current date and time to make a filename
+	
+
+
+
 #Welcome message
 print("Raspberry Pi Dashboard Camera \n"
       "By Jeff Stevens\n\n")
 
 #Step 1: Check to see if there is enough space to store a 1 hour video file.
 print("Analyzing remaining diskspace...")
-print(psutil.disk_usage(".").free)
+diskSpaceLeftInMB = psutil.disk_usage(".").free/1048576
+minutesOfVideoRemaining = diskSpaceLeftInMB/318.75 #Found on this website: https://www.digitalrebellion.com/webapps/videocalc
 '''
 while remaining disk space <= amount of diskspace for 1 hour of video
     delete oldest video
@@ -55,15 +62,17 @@ while remaining disk space <= amount of diskspace for 1 hour of video
 #Step 2: Start recording
 print("Camera starting up...")
 camera = picamera.PiCamera()
-camera.resolution = (640, 480)
+camera.resolution = (640,480)
 #Generate name of file based on date, number of trips in day, and time
-camera.start_recording('my_video.h264')
-print("Recording has begun for FILENAME")
+fileName = generateFileName()
+camera.start_recording(fileName+ '.h264')
+print("Recording has begun for " + fileName + '.h264')
+
 
 #Step 3: Stop recording
 #Receive signal from no power from cigarette lighter
 #Change power source
-#camera.wait_recording(60)
+camera.wait_recording(60)
 camera.stop_recording()
 print("Recording has stopped")
 #Check to see if video is saved in directory
@@ -71,5 +80,4 @@ print("Recording has stopped")
 #Step 4: Send videos to server if wifi signal present
 
 #Step 5: Switch power sources
-
 
